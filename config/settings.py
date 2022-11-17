@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'communities',
     'events',
     'gallery',
+    'notification',
+    'members',
 ]
 
 MIDDLEWARE = [

@@ -23,4 +23,8 @@ urlpatterns = [
     path('communities/',include('communities.urls',namespace='communities')),
     path('events/',include('events.urls',namespace='events')),
     path('gallery/',include('gallery.urls',namespace='gallery')),
-]
+    path('notifications/',include('notifications.urls',namespace='notifications')),
+    path('members/',include('members.urls',namespace='members'))
+
+]  
+
