@@ -21,6 +21,9 @@ class Users(AbstractUser):
     is_leader = models.BooleanField(default=False)
     is_member = models.BooleanField(default=True)
     is_patron = models.BooleanField(default=False)
+    class Meta:
+        verbose_name_plural = "Users"
+        db_table = 'users'  
     
     def __str__(self):
         return self.Email

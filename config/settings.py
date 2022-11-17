@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     #apps
     'users',
     'core',
+    'communities',
+    'events',
+    'gallery',
 ]
 
 MIDDLEWARE = [
