@@ -1,13 +1,14 @@
 from django.db import models
-from users.models import UserModel
+from accountUsers.models import UserModel
+from django.conf import settings
 # Create your models here.
 
 
 class Members(models.Model):
-    userview = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    userview = models.ForeignKey(UserModel, on_delete=models.CASCADE,related_name='userview')
     reg_no=models.CharField(max_length=100,blank=False,null=False)
     course=models.CharField(max_length=100,blank=False,null=False)
-    date_joined=models.DateTimeField(auto_now_add=True)
+    date_joined=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name=models.CharField(max_length=100,blank=False,null=False)
     last_name=models.CharField(max_length=100,blank=False,null=False)
     class Meta:

@@ -39,14 +39,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     
     #apps
-    # 'core',
-    # 'communities',
-    # 'events',
-    # 'gallery',
-    # 'notification',
-    # 'members',
+    'core',
+    'communities',
+    'events',
+    'gallery',
+    'notification',
+    'members',
+    'accountUsers',
 ]
-
+AUTH_USER_MODEL = 'accountUsers.UserModel'
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

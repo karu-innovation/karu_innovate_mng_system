@@ -1,7 +1,7 @@
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-from users.models import UserModel
+from accountUsers.models import UserModel
 # Create your models here.
 class Community(models.Model):
     name = models.CharField(max_length=100)
