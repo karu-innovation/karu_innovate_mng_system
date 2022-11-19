@@ -1,13 +1,13 @@
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-from users.models import Users
+from users.models import UserModel
 # Create your models here.
 class Community(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    lead=models.ForeignKey(Users,on_delete=models.CASCADE,related_name='lead')
-    members = models.ManyToManyField(Users,related_name='members')
+    lead=models.ForeignKey(UserModel,on_delete=models.CASCADE,related_name='lead')
+    members = models.ManyToManyField(UserModel ,related_name='members')
     cover_image = models.ImageField(upload_to='images/')
     image_thumbnail = ImageSpecField(source='cover_image',
                                      
