@@ -1,5 +1,9 @@
 from django.shortcuts import render
-
+from .models import Community
 # Create your views here.
 def CommunityView(request):
-    return render(request,'communities/communities.html')
+    community=Community.objects.all()
+    context={
+        'community':community
+    }
+    return render(request,'communities/communities.html',context)
