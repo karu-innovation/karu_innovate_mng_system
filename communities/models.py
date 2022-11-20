@@ -2,7 +2,7 @@ from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from accountUsers.models import UserModel
-from django.utils.text import Slugify
+from django.utils.text import slugify
 # Create your models here.
 class Community(models.Model):
     name = models.CharField(max_length=100)
@@ -27,5 +27,5 @@ class Community(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = Slugify(self.name)
+            self.slug = slugify(self.name)
         return super(Community, self).save(*args, **kwargs)
