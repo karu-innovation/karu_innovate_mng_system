@@ -5,3 +5,9 @@ class EmailForm(forms.Form):
     widget = {
         'email':forms.EmailInput(attrs={'class':'form-control'})
     }
+    
+class TextForm(forms.Form):
+    text = forms.CharField()
+    widget = {
+        'text':forms.TextInput(attrs={'class':'form-control'})
+    }

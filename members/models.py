@@ -11,7 +11,7 @@ class Members(models.Model):
     last_name=models.CharField(max_length=100,blank=False,null=False)
     course=models.CharField(max_length=100,blank=False,null=False)
     date_joined=models.DateTimeField(auto_now_add=True)
-    email=models.EmailField()
+    email=models.EmailField(max_length=100,blank=False,null=False)
     class Meta:
         verbose_name_plural='Members'
         db_table='members'

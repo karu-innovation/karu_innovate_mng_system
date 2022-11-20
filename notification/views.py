@@ -8,8 +8,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_gen
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
+from members.models import Members
 import africastalking
-from .forms import EmailForm
+from .forms import EmailForm,TextForm
 from django.conf import settings
 username="karatina_university"
 api_key ="07993e9871f4dbb20cffd923e901839e0c024ba68a7b907fffe4b5d953ec645a"
@@ -18,6 +19,7 @@ sms = africastalking.SMS
 # Create your views here.
 def Notification(request):
     notification=Notification.objects.all()
+    members=Members.objects.all()
     emailform=EmailForm()
     if request.method == 'POST':
         emailform=EmailForm(request.POST)
@@ -25,20 +27,21 @@ def Notification(request):
             emailform.save()
             uidb64 = urlsafe_base64_encode(force_bytes(request.user.pk))
             domain = get_current_site(request).domain
-            link = reverse('accounts:activate', 
-                            kwargs={
-                                'uidb64':uidb64, 
-                                'token':token_gen.make_token(user)
-                                    })
-            activate_url = f"http://{domain+link}"
-            
-            mail_subject = "Activate your account"
-
-            
-            mail_body = f"hi {user.username} click the link below to verify your account\n {activate_url}"
-            mail = send_mail (mail_subject, mail_body,'noreply@courses.com',[user.email], fail_silently=False)
-            messages.success(request, "Account created, Check your email to activate your account")
-            return redirect('accounts:login')
+            for member in range(len(members)):
+                link = reverse('activate', kwargs={
+                    'uidb64': uidb64, 'token': token_gen.make_token(request.user)})
+                activate_url = 'http://' + domain + link
+                subject = 'Activate your account'
+                message = 'Hi ' + members[member].first_name + ' ' + members[member].last_name + ' '+ ' with E Mail ' + ' '+ members[member].email + ', please use this link to activate your account \n' + activate_url
+                send_mail(subject, message, settings.EMAIL_HOST_USER, [members[member].email], fail_sending=False)
+                
+                return redirect('notification')
+    if request.method == 'POST':
+        message=request.POST.get('message')
+        phone_number=request.POST.get('phone_number')
+        response = sms.send(message, [phone_number])
+        print(response)
+        return redirect ('notification')        
     context={
         'notification':notification
     }
