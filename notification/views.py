@@ -11,7 +11,7 @@ from decouple import config
 
 from members.models import Members
 import africastalking
-from .forms import EmailForm,TextForm
+from .forms import EmailForm
 from django.conf import settings
 
 
@@ -27,28 +27,25 @@ def Notification(request):
     members=Members.objects.all()
     emailform=EmailForm()
     if request.method == 'POST':
+        message=request.POST.get('message')
+        phone_no=request.POST.get('phone_no')
+        response = sms.send(message, [phone_no])
+        print(response)
+        messages.success(request, 'Message sent successfully')
+        return redirect('notification:notification')
+    if request.method == 'POST':
         emailform=EmailForm(request.POST)
         if emailform.is_valid():
-            emailform.save()
-            uidb64 = urlsafe_base64_encode(force_bytes(request.user.pk))
-            domain = get_current_site(request).domain
-            for member in range(len(members)):
-                link = reverse('activate', kwargs={
-                    'uidb64': uidb64, 'token': token_gen.make_token(request.user)})
-                activate_url = 'http://' + domain + link
-                subject = 'Activate your account'
-                message = 'Hi ' + members[member].first_name + ' ' + members[member].last_name + ' '+ ' with E Mail ' + ' '+ members[member].email + ', please use this link to activate your account \n' + activate_url
-                send_mail(subject, message, settings.EMAIL_HOST_USER, [members[member].email], fail_sending=False)
-                
-                return redirect('notification')
-    # if request.method == 'POST':
-    #     message=request.POST.get('message')
-    #     phone_number=request.POST.get('phone_number')
-    #     response = sms.send(message, [phone_number])
-    #     print(response)
-    #     return redirect ('notification')        
+            email=emailform.cleaned_data.get('email')
+            subject=emailform.cleaned_data.get('subject')
+            message=emailform.cleaned_data.get('message')
+            send_mail(subject,message,settings.EMAIL_HOST_USER,[email],fail_silently=False)
+            messages.success(request, 'Email sent successfully')
+            return redirect('notification:notification')
+         
+        
     context={
         'notification':notification,
-        'form':EmailForm,
+        
     }
     return render(request,'notification/notification.html',context)
