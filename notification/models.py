@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accountUsers.models import UserModel
 # Create your models here.
 class Notification(models.Model):
     name=models.CharField(max_length=100,blank=False,null=False)
-    sender=models.ForeignKey(User,on_delete=models.CASCADE,related_name='sender')
+    sender=models.ForeignKey(UserModel,on_delete=models.CASCADE,related_name='sender')
     message=models.CharField(max_length=100,blank=False,null=False)
     timestap=models.DateTimeField(auto_now_add=True)
     
