@@ -11,6 +11,7 @@ class UserModel(AbstractUser):
     is_lead=models.BooleanField(default=False)
     is_member=models.BooleanField(default=True)
     is_patron=models.BooleanField(default=False)
+    is_admin=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     
     class Meta:
