@@ -5,7 +5,7 @@ class Notification(models.Model):
     name=models.CharField(max_length=100,blank=False,null=False)
     sender=models.ForeignKey(UserModel,on_delete=models.CASCADE,related_name='sender')
     message=models.CharField(max_length=100,blank=False,null=False)
-    timestap=models.DateTimeField(auto_now_add=True)
+    timestamp=models.DateTimeField(auto_now_add=True)
     
     class Meta:
         verbose_name_plural='Notification'

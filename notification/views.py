@@ -7,15 +7,20 @@ from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_gen
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from decouple import config
 
 from members.models import Members
 import africastalking
 from .forms import EmailForm,TextForm
 from django.conf import settings
+
+
 username="karatina_university"
-api_key ="07993e9871f4dbb20cffd923e901839e0c024ba68a7b907fffe4b5d953ec645a"
+api_key = config('AFRICASTALKING_API')
 africastalking.initialize(username, api_key)
 sms = africastalking.SMS
+
+
 # Create your views here.
 def Notification(request):
     notification=Notification.objects.all()
@@ -36,13 +41,14 @@ def Notification(request):
                 send_mail(subject, message, settings.EMAIL_HOST_USER, [members[member].email], fail_sending=False)
                 
                 return redirect('notification')
-    if request.method == 'POST':
-        message=request.POST.get('message')
-        phone_number=request.POST.get('phone_number')
-        response = sms.send(message, [phone_number])
-        print(response)
-        return redirect ('notification')        
+    # if request.method == 'POST':
+    #     message=request.POST.get('message')
+    #     phone_number=request.POST.get('phone_number')
+    #     response = sms.send(message, [phone_number])
+    #     print(response)
+    #     return redirect ('notification')        
     context={
-        'notification':notification
+        'notification':notification,
+        'form':EmailForm,
     }
     return render(request,'notification/notification.html',context)
