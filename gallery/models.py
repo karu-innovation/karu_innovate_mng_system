@@ -1,6 +1,8 @@
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from django.utils.text import slugify
+import uuid
 # Create your models here.
 
 
@@ -14,8 +16,9 @@ class Gallery(models.Model):
                               format='JPEG',
                               options={'quality':60})
     timestap=models.DateTimeField(auto_now_add=True)
+    uuid=models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
+
     
     class Meta:
         verbose_name_plural='Gallery'
-        db_table='gallery'
-                              
+        db_table='gallery'        
