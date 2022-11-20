@@ -1,7 +1,7 @@
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-from communities.models import Communities
+from communities.models import Community
 from django.utils.text import slugify
 # Create your models here.
 class Category(models.Model):
@@ -11,7 +11,7 @@ class Category(models.Model):
         self.slug=slugify(self.name)
         super(Category,self).save(*args,**kwargs)
 class Events(models.Model):
-    community=models.ForeignKey(Communities,on_delete=models.CASCADE)
+    community=models.ForeignKey(Community,on_delete=models.CASCADE)
     name=models.CharField(max_length=100,blank=False,null=False)
     image=models.ImageField(upload_to='images/')
     image=ImageSpecField(source='image',

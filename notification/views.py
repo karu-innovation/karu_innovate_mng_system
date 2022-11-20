@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_gen
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from decouple import config
+
 import africastalking
 from .forms import EmailForm
 from django.conf import settings

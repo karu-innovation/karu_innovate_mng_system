@@ -1,18 +1,20 @@
 from django.shortcuts import render,redirect
+from .forms import EventForm
 from .models import Events
-from .forms import CreateEventForm
+
+
 # Create your views here.
-def EventView(request):
-    createEventForm=CreateEventForm()
+def Event(request):
+    eventForm=EventForm()
     events=Events.objects.all()
     if request.method=='POST':
-        createEventForm=CreateEventForm(request.POST,request.FILES)
-        if createEventForm.is_valid():
-            createEventForm.save()
+        eventForm=EventForm(request.POST,request.FILES)
+        if eventForm.is_valid():
+            eventForm.save()
             return redirect('events')
     context = {
         'events': events,
-        'createEventForm': createEventForm,
+        'eventForm': eventForm,
     }
     
     return render(request, 'events/events.html', context)
